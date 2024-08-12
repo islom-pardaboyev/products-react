@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { Context } from "../context/CustomContext";
 
 function Navbar() {
-  // const navlinks =
+  const { setShowSavedProducts } = useContext(Context);
   const { savedProducts } = useContext(Context);
   return (
     <nav className="flex items-center mt-5 sticky top-5 mx-[20%] justify-center">
@@ -16,7 +16,7 @@ function Navbar() {
           </small>
         </h1>
         <ul>
-          <li className="text-xl font-bold flex items-center gap-2">
+          <li onClick={() => setShowSavedProducts(true)} className="cursor-pointer text-xl font-bold flex items-center gap-2">
             <p>
               Basket <FontAwesomeIcon icon={faShoppingBasket} />
             </p>
