@@ -12,7 +12,7 @@ function APIContent() {
       </div>
     );
   }
-x
+  
   return (
     <div className="flex m-7 items-center justify-between flex-wrap gap-8">
       {products.length > 0 ? (
