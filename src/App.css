@@ -23,3 +23,7 @@
   height: 60px;
   animation: spin 1s linear infinite;
 }
+
+ul a.active{
+  color: #00eaff;
+}

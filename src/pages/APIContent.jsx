@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import ProductCart from "./ProductCart";
+import ProductCart from "../components/ProductCart";
 import { Context } from "../context/CustomContext";
 
 function APIContent() {
