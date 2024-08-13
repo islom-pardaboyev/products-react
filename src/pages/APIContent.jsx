@@ -8,7 +8,7 @@ function APIContent() {
 
   if (loading) {
     return (
-      <div className="w-screen flex items-center justify-center">
+      <div className="w-screen flex h-screen items-center justify-center">
         <Triangle
           visible={true}
           height="80"
