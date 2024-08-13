@@ -4,12 +4,35 @@ import toast, { Toaster } from "react-hot-toast";
 const Context = createContext();
 
 function CustomContext({ children }) {
+  // use states
+  // const [showOrderModal, setShowOrderModal] = useState(false);
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [savedProducts, setSavedProducts] = useState(
-    JSON.parse(window.localStorage.getItem("savedProducts")) || []
+    JSON.parse(localStorage.getItem("savedProducts")) || []
+  );
+  const [orderedProducts, setOrderedProducts] = useState(
+    JSON.parse(localStorage.getItem("orderedProducts")) || []
   );
   const [showSavedProducts, setShowSavedProducts] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem("darkMode")) || false
+  );
+  const [showOrderModal, setShowOrderModal] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    setDarkMode(JSON.parse(localStorage.getItem("darkMode")));
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  useEffect(() => {
+    window.localStorage.setItem("savedProducts", JSON.stringify(savedProducts));
+  }, [savedProducts]);
 
   function addBasket(id) {
     const product = products.find((user) => user.id === id);
@@ -24,8 +47,23 @@ function CustomContext({ children }) {
     }
   }
 
+  function handleFormSubmit(e) {
+    setShowOrderModal(false);
+    e.preventDefault();
+    const orderOwner = {
+      fullName: e.target.fullName.value,
+      phone: e.target.phoneNumber.value,
+      address: e.target.adress.value,
+      email: e.target.email.value,
+    };
+    toast.success("Product Ordered")
+    console.log(orderOwner);
+  }
+
   function removeProduct(id) {
-    setSavedProducts(savedProducts.filter((savedProduct) => savedProduct.id !== id));
+    setSavedProducts(
+      savedProducts.filter((savedProduct) => savedProduct.id !== id)
+    );
     toast.success("Products Removed Saved List");
   }
 
@@ -34,27 +72,32 @@ function CustomContext({ children }) {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
-        setLoading(false); 
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false); 
+        setLoading(false);
       });
   }, []);
-
-  window.localStorage.setItem("savedProducts", JSON.stringify(savedProducts));
 
   return (
     <Context.Provider
       value={{
         products,
-        loading, 
+        loading,
         setProducts,
         savedProducts,
         addBasket,
         removeProduct,
         showSavedProducts,
         setShowSavedProducts,
+        darkMode,
+        setDarkMode,
+        showOrderModal,
+        setShowOrderModal,
+        orderedProducts,
+        setOrderedProducts,
+        handleFormSubmit,
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />

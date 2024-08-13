@@ -1,11 +1,8 @@
 import React, { useContext } from "react";
 import { Context } from "../context/CustomContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import SavedProductsList from "../components/SavedProductsList";
 
 function SavedProducts() {
-  const { showSavedProducts, setShowSavedProducts, savedProducts } =
+  const {  savedProducts } =
     useContext(Context);
   console.log(savedProducts);
   let total = 0;
@@ -13,11 +10,7 @@ function SavedProducts() {
   savedProducts.forEach((item) => (total += item.price));
   console.log(total);
 
-  return (
-    <section>
-      {savedProducts.map(savedProd => <SavedProductsList savedProd={savedProd} />)}
-    </section>
-  );
+  return <section className="w-screen h-screen overflow-y-auto">order</section>;
 }
 
 export default SavedProducts;
