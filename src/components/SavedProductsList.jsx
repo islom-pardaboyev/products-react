@@ -1,36 +1,45 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Context } from "../context/CustomContext";
 
-function SavedProductsList({ savedProd }) {
-  const { removeProduct} = useContext(Context);
-  
+function SavedProductsList({ prods }) {
+  const [counter, setCounter] = useState(1);
+  const {removeProduct} = useContext(Context)
+
+  const increase = () => {
+    setCounter((prevCounter) => prevCounter + 1);
+  };
+
+  const decrease = () => {
+    if (counter > 1) {
+      setCounter((prevCounter) => prevCounter - 1);
+    }
+  };
+
   return (
-    <div className="mt-10 flex group relative border justify-between border-black rounded-md p-2 items-center">
-      <img
-        className="rounded-md"
-        src={savedProd.images[0]}
-        width={70}
-        height={70}
-        alt=""
-      />
-      <div className="flex flex-col items-end">
-        <h1 className="font-bold text-xl">${savedProd.price}</h1>
-        <h1 className="font-bold">{savedProd.title}</h1>
-        <span className="text-sm text-neutral-500 text-medium">
-          Added Time: {savedProd.savedTime}
-        </span>
+    <div className="flex items-center border-b justify-between dark:border-neutral-500 border-black p-4 gap-4">
+      <img src={prods.images[0]} width={100} alt="" />
+      <p className="font-medium text-lg dark:text-white">{prods.title}</p>
+      <div className="flex items-center gap-2 border border-neutral-600 overflow-hidden rounded-md justify-between">
+        <FontAwesomeIcon
+          className="cursor-pointer hover:bg-white/40 p-3 dark:text-white"
+          onClick={decrease}
+          icon={faMinus}
+        />
+        <p className="dark:text-white">{counter}</p>
+        <FontAwesomeIcon
+          className="cursor-pointer hover:bg-white/40 p-3 dark:text-white"
+          onClick={increase}
+          icon={faPlus}
+        />
       </div>
-      <div
-        onClick={() => removeProduct(savedProd.id)}
-        className="absolute invisible duration-300 group-hover:visible w-[35px] h-[35px] rounded-md flex items-center justify-center bg-red-500/50 hover:bg-red-500 text-white -bottom-10 cursor-pointer right-0"
-      >
-        <FontAwesomeIcon icon={faTrash} />
+      <div className="flex items-center gap-4">
+        <p className="dark:text-white">${prods.price * counter}</p>
+        <FontAwesomeIcon onClick={() => removeProduct(prods.id)} icon={faTrash} className="p-3 rounded-md bg-red-500 opacity-50 hover:opacity-100 cursor-pointer text-white"/>
       </div>
     </div>
   );
 }
 
 export default SavedProductsList;
-

@@ -8,7 +8,7 @@ function APIContent() {
 
   if (loading) {
     return (
-      <div className="w-screen h-screen flex items-center justify-center">
+      <div className="w-screen flex items-center justify-center">
         <Triangle
           visible={true}
           height="80"
@@ -29,7 +29,7 @@ function APIContent() {
           return <ProductCart product={product} key={product.id} />;
         })
       ) : (
-        <p className="w-screen h-screen flex items-center justify-center">
+        <p className="w-screen h-full flex items-center justify-center">
           No Data
         </p>
       )}

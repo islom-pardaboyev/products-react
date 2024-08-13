@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import {
@@ -9,11 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Context } from "../context/CustomContext";
+import { gsap } from "gsap";
 
 function ProductCart({ product }) {
+  const boxRef = useRef();
   const [loading, setLoading] = useState(true);
-  const date = new Date(product.creationAt);
-  const { addBasket, setShowOrderModal } = useContext(Context);
+  const [date, setDate] = useState(new Date());
+  const { addBasket, addOrder } = useContext(Context);
 
   const imageUrl = Array.isArray(product.images)
     ? product.images[0]
@@ -35,13 +37,23 @@ function ProductCart({ product }) {
   ];
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); 
+      setDate(new Date(product.creationAt));
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [product.creationAt]);
+
+  useEffect(() => {
+    gsap.from(boxRef.current, { y: 100, duration: 1.5, opacity: 0 });
   }, []);
 
   return (
-    <div className="max-w-[250px] select-none group flex flex-col rounded-lg overflow-hidden product-shadow min-w-[250px]">
+    <div
+      ref={boxRef}
+      className="max-w-[250px] select-none group flex flex-col rounded-lg overflow-hidden product-shadow min-w-[250px]"
+    >
       <div className="w-fit h-fit overflow-hidden">
         {loading ? (
           <Skeleton height={300} />
@@ -110,7 +122,8 @@ function ProductCart({ product }) {
             {loading ? (
               <Skeleton width={30} height={30} />
             ) : (
-              <FontAwesomeIcon onClick={() => setShowOrderModal(true)}
+              <FontAwesomeIcon
+                onClick={() => addOrder(product.id)}
                 className=" flex  transition-all items-center gap-2 border-2 p-3 font-semibold rounded-lg border-red-500 bg-transparent text-red-500 hover:text-white hover:bg-red-700 hover:border-red-700"
                 icon={faTruckRampBox}
               />

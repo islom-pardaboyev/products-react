@@ -41,7 +41,7 @@ function CustomModal() {
                 required
                 type="text"
                 name="fullName"
-                className="outline-none"
+                className="outline-none w-full"
                 placeholder="Full Name"
               />
             </div>
@@ -56,7 +56,7 @@ function CustomModal() {
                 type="number"
                 required
                 name="phoneNumber"
-                className="outline-none"
+                className="outline-none w-full"
                 placeholder="Phone Number"
               />
             </div>
@@ -70,7 +70,7 @@ function CustomModal() {
                 type="email"
                 required
                 name="email"
-                className="outline-none"
+                className="outline-none w-full"
                 placeholder="Email"
               />
             </div>
@@ -83,8 +83,8 @@ function CustomModal() {
               <input
                 type="text"
                 required
-                name="adress"
-                className="outline-none"
+                name="address"
+                className="outline-none w-full"
                 placeholder="Adress"
               />
             </div>
